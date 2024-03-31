@@ -1,0 +1,103 @@
+Package.json 
+Contains metadata about project, dependencies, entry point
+
+Npm install webpack webpack-cli —save-dev
+Save-dev adds it to devDependencies in package.json
+
+Npx webpack
+Webpack bundles with default configurations
+
+Mention any script you want to run in package.json
+It will run when you execute ‘npm run <scriptname>’
+
+Ex:
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build":"webpack"
+  },
+
+Npm run build => webpack will run
+
+
+Asset modules
+Used to import files (fonts, icons, etc) and direct them into output file without configuring additional loaders
+
+Asset/resource - large files
+Asset/inline - icons, svgs which are put into js file as data uri. No separate output file
+asset - combination of above 2
+Asset/source - plain text. injects to js file
+
+
+We need to mention in webpack how to import a module and which type of resource it is.
+
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpg)$/,
+        type: "asset/resource",
+      },
+    ],
+  },
+
+publicPath: tells browser where to load the static assets
+Be default publicPath in the output object is set to ‘auto’ in webpack >= 5.
+In the earlier versions it was “”
+
+output: {
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "./dist"),
+    publicPath: "dist/",
+  },
+
+
+
+OR 
+publicPath:”url/”
+
+
+Type: asset/inline 
+Increases main output js file size
+Converts the image to base64 and injects it to js file
+
+Use case:
+If there are 20 small size files like icons, then having them inline our js file will be faster than the browser making 20 http calls
+
+Type: asset
+By default
+Below 8Kb -> inline
+Above 8kb -> resource
+
+Below config is how we can change the default size
+<3kB will make it inline
+>3kB will make it resource (different path in output dir and hence url)
+
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpg)$/,
+        type: "asset",
+        parser: {
+          dataUrlCondition: {
+            maxSize: 3 * 1024, //3kB
+          },
+        },
+      },
+    ],
+  },
+
+
+Loaders
+
+transformations that are applied to the source code of a module. They allow you to pre-process files as you import or “load” them
+
+Css-loader : reads the styles
+Style-loader : injects those styles to js
+
+JS is based on ECMAScript specifications.
+Every time a new feature comes and we use it in our code, it may not work in all browsers since even browsers need to support the latest features.
+Thats why we use babel (one of the tools) to convert modern js to older js code.
+
+presets: ['@babel/env'] means it will transform the latest javascript to javascript that all browsers understand,
+plugins: ['transform-class-properties'] means it will transform class properties (not EcmaScript 6 classes) to javascript that all browsers understand.
+
