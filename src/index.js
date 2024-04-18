@@ -1,4 +1,7 @@
-import helloWorldButton from "./components/helloWorldButton/helloWorldButton.js";
+import HelloWorldButton from "./components/helloWorldButton/helloWorldButton.js";
+import Heading from "./components/heading/heading.js";
 
-const myButton = new helloWorldButton();
+const myHeading = new Heading();
+myHeading.render();
+const myButton = new HelloWorldButton();
 myButton.render();

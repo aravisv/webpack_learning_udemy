@@ -1,6 +1,6 @@
 import "./hello-world.scss";
 
-class helloWorldButton {
+class HelloWorldButton {
   buttonCssClass = "hello-world-button";
   render() {
     const button = document.createElement("button");
@@ -18,4 +18,4 @@ class helloWorldButton {
   }
 }
 
-export default helloWorldButton;
+export default HelloWorldButton;
